@@ -7,6 +7,7 @@ The project uses Google map API to display a list of ATM with tips and ratings d
 
 ## Third Party libraries / API ##
 - KnockoutJS
+- Bootstrap
 - jQuery
 - Google Map API
 - foursquare API 
