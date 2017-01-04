@@ -5,56 +5,57 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ATM Map</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>GetMyCash</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body>
-    <div class="container col-lg-12">
-        <div class="options-box col-lg-3">
-            <h1 class="">Find ATM near you</h1>
-            <!-- <div>
-                <span class="text">Search for nearby places</span>
-                <input id="places-search" type="text" placeholder="Filter">
-                <input id="go-places" type="button" value="Filter">
-            </div>
-            <hr> -->
-            <div class="input-group">
-                <input id="placessearch" class="form-control" type="text" data-bind="value: currentFilter" placeholder="Search for...">
-                <span class="input-group-btn">
-                      <button class="btn btn-default" type="button" data-bind="'click': applyFilter"> <span class="glyphicon glyphicon-filter" aria-hidden="true"/>
-                    </span>
+<body class="container-fluid">
+    <div class="row">
+        <nav class="navbar navbar-default reduceMargin">
+            <div class="container-fluid">
+                <span class="navbar-brand">                         
+                        <i class="fa fa-money text-primary"></i>
+                         GetMyCash
+                        </span>
+                <form class="navbar-form navbar-left" role="search">
+                    <input id="placessearch" class="form-control" type="text" data-bind="value: currentFilter, valueUpdate: 'keyup'" placeholder="Filter">
+                </form>
+                <button type="button" id="menu-toggle" class="btn btn-default navbar-btn navbar-right">
+                    <i class="fa fa-ellipsis-v text-primary"></i>
                 </button>
             </div>
-            <br>
-            <div>
-                <ul data-bind="foreach: filteredLocations" class="list-group">
-                    <a href="#" class="list-group-item" data-bind="css: { active: id == $parent.currentSelected() } , 
-        'click': $parent.selectItem($data)">
-                        <h4 class="list-group-item-heading" data-bind="text: title"> </h4>
-                        <span class="label label-default" data-bind="text: foursquareInfo.rating"></span>
-                        <p class="list-group-item-text" data-bind="text: foursquareInfo.address">...</p>
-                    </a>
-                </ul>
+        </nav>
+    </div>
+    <div class="row content">
+        <aside id="sidebar" class="col-lg-3 col-md-4 col-xs-4 nopadding ">
+            <div id="sidebar-spinner">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             </div>
-            <footer class="footer">
-                <div class="container">
-                    <small class="text-muted">Powered by Foursquare</small>
-                </div>
-            </footer>
-        </div>
+            <ul data-bind="foreach: filteredLocations" class="list-group">
+                <a href="#" class="list-group-item" data-bind="css: { active: id == $parent.currentSelected() } , 
+                     event:{click: $parent.selectItem}">
+                    <h4 class="list-group-item-heading" data-bind="text: title"> </h4>
+                    <span class="label label-default" data-bind="text: foursquareInfo.rating"></span>
+                    <address class="list-group-item-text dont-break-out" data-bind="text: foursquareInfo.address"></address>
+                </a>
+            </ul>
+        </aside>
+        <main class="col-md-8 col-xs-8 col-lg-9 nopadding">
+            <div id="map"></div>
+        </main>
     </div>
-    <div id="map"></div>
     </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="js/models.js"></script>
-    <script src="js/mapstyle.js"></script>
-    <script src="js/main.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyDKWix-fjyq5Q74dwCp1vYmiU87ySb5naY&v=3&callback=initMap"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+    <script src="js/lib/moment.js"></script>
+    <script src="js/app/models.js"></script>
+    <script async defer onerror="mapError()" src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyDKWix-fjyq5Q74dwCp1vYmiU87ySb5naY&v=3&callback=initMap"></script>
+    <script src="js/app/mapstyle.js"></script>
+    <script src="js/app/main.js"></script>
 </body>
 
 </html>
