@@ -1,5 +1,6 @@
 var map;
 
+
 //knockout view-model
 var ViewModel = function() {
     var self = this;
@@ -17,7 +18,7 @@ var ViewModel = function() {
 
     self.currentSelected = ko.observable(0);
     self.currentSelected.subscribe(function(newValue) {
-        $.each(locations, function(i, location) {
+        locations.forEach((location,i)=> {
             if (location.id === newValue) {
                 location.marker.setIcon(highlightedIcon);
                 google.maps.event.trigger(location.marker, 'click');
@@ -26,12 +27,16 @@ var ViewModel = function() {
             } else {
                 location.marker.setIcon(defaultIcon);
             }
-        });
+        });       
     });
 
     self.selectItem = (function(data) {
         console.log(data);
         self.currentSelected(data.id);
+    });
+
+    self.setIfwContnt = (function () {
+
     });
 };
 
@@ -56,10 +61,10 @@ function initMap() {
     highlightedIcon = makeMarkerIcon('FFFF24');
 
     // The following group uses the location array to create an array of markers on initialize.
-    for (var i = 0; i < locations.length; i++) {
-        // Get the position from the location array.
-        var position = locations[i].location;
-        var title = locations[i].title;
+    locations.forEach((location,i)=>{
+                // Get the position from the location array.
+        var position = location.location;
+        var title = location.title;
 
         // Create a marker per location, and put into markers array.
         var marker = new google.maps.Marker({
@@ -104,37 +109,26 @@ function initMap() {
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
         });
+    });
 
-    }
     showAllMarkers();
     loadFourSquareInfo();
 }
 
 function setMapOnAll(map, items) {
-
-    for (var i = 0; i < items.length; i++) {
-        items[i].marker.setMap(map);
-    }
-}
-
-// Removes the markers from the map, but keeps them in the array.
-function clearMarkers(items) {
-    //setMapOnAll(null, items);
-    for (var i = 0; i < items.length; i++) {
-        items[i].marker.setVisible(false);
-    }
+    items.forEach((item, i)=> {
+        item.marker.setMap(map);
+    });    
 }
 
 // Shows any markers currently in the array.
 function showMarkers(items) {
-    $.each(locations, function(i, location) {
-        if ($.inArray(location, items) !== -1) {
-            location.marker.setVisible(true);
-        } else {
-            location.marker.setVisible(false);
-        }
+    locations.forEach((location, i) => {
+        var match = $.inArray(location, items) !== -1;
+        location.marker.setVisible(match);
     });
 }
+
 
 
 function loadFourSquareInfo() {
@@ -142,8 +136,8 @@ function loadFourSquareInfo() {
     var fourSquareAuth = 'client_id=BZUMK1Y0YYJVVRGY4XNQQKQ0U0Z3A3ETXZGX44NVBNHGAGBA&client_secret=G30F1RG5P3SMAMCEXBTTUSWRUNUO43GF4ZHUB4P2U3ZRID1V&v=20161127';
     // queue all the jqXHR promise objects
     var q = []
-    $.each(locations, function(index, location) {
-        var jqXHR = $.getJSON({
+    locations.forEach((location, index) => {
+         var jqXHR = $.getJSON({
                 url: foursquareAPI + location.foursquareInfo.ID,
                 data: fourSquareAuth,
                 context: location
@@ -156,8 +150,7 @@ function loadFourSquareInfo() {
                 this.foursquareInfo.address = 'Oops! Could not connect Foursquare© API';
             })
         q.push(jqXHR);
-    });
-    // apply bindings when all the data is received     
+    });    
     Promise.all(q)
         .then(() => {
                 vm = new ViewModel();
@@ -250,8 +243,8 @@ function setInfowindowContent(marker,infowindow) {
         .done(function(data) {
                 //content = content + '<div class="panel-body">';
                 var tipsHTML = '';
-            $.each(data.response.tips.items, function(i, tip) {                
-                if (i < 2) {
+                data.response.tips.items.forEach((tip,i)=> {
+                    if (i < 2) {
                     tipsHTML += 
                        '<div class="media">' 
                          +  '<div class="media-left"> '                       
@@ -262,7 +255,8 @@ function setInfowindowContent(marker,infowindow) {
                          +  '</div>'
                      + '</div>';
                 }                
-            });
+
+                });            
             $('#ifw-tips').html('<div class="tips">'+tipsHTML+'</div>');
         })
         .fail(function() {
@@ -275,10 +269,10 @@ function setInfowindowContent(marker,infowindow) {
 function showAllMarkers() {
     var bounds = new google.maps.LatLngBounds();
     // Extend the boundaries of the map for each marker and display the marker
-    for (var i = 0; i < locations.length; i++) {
-        locations[i].marker.setMap(map);
-        bounds.extend(locations[i].marker.position);
-    }
+    locations.forEach((location,i)=>{
+        location.marker.setMap(map);
+        bounds.extend(location.marker.position);
+    });   
     map.fitBounds(bounds);
 }
 
