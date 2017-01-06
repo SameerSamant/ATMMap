@@ -31,7 +31,8 @@
 
 
 #ifw {	  
-	max-width: 350px;	  
+	max-width: 350px;	 
+	max-height: 500px; 
 }
 
 #ifw-spinner {
@@ -45,12 +46,21 @@
 }
 
 #ifw-body {	  
-	overflow-y: auto;		  
+	overflow-y: hidden;	
+	padding: 10px 5px 5px 5px;		  
+}
+
+#ifw-tips {
+	overflow-y: auto;
+	max-height: 200px;
 }
 
 .tips {
-	overflow-y: auto;
-	max-height: 200px;
+
+	padding: 3px 3px 0 0;
+    margin-bottom: 10px;
+    border-left: 3px solid #2196F3;
+    background-color: #d9edf7;
 }
 
 .foursquareThanks {

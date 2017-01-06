@@ -30,7 +30,7 @@
         </nav>
     </div>
     <div class="row content">
-        <aside id="sidebar" class="col-lg-3 col-md-4 col-xs-4 nopadding ">
+        <aside id="sidebar" class="col-lg-3 col-md-4 col-xs-4 nopadding">
             <div id="sidebar-spinner">
                 <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
             </div>
@@ -48,6 +48,47 @@
         </main>
     </div>
     </div>
+    <script type="text/html" id="ifw-template">
+        <div id="ifw">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div>
+                        <h4 data-bind="text: title"></h4>
+                        <div class="media">
+                            <div class="media-object media-left media-middle" data-bind="html: cashIcon">
+                            </div>
+                            <div class="media-body">
+                                <small style="display: block" data-bind="text: cashStatus"></small> </a>
+                                <small data-bind="text: updateTime"></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="ifw-body" class="panel-body">
+                    <div id="ifw-spinner" data-bind="css: { hidden: hideIFWSpinner }">
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                    </div>
+                    <div id="ifw-Error" class="bg-danger hidden"> <span class="fa fa-exclamation-circle"></span> Oops! Could not connect Foursquare© API </div>
+                    <div id="ifw-tips" data-bind="foreach: tips">
+                        <div class="tips">
+                            <div class="media">
+                                <div class="media-left">
+                                    <img class="media-object img-thumbnail" data-bind="attr: {src: userImage}">
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="media-heading" data-bind="text: userName"></h5>
+                                    <div data-bind="text: tipText"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="foursquareThanks text-info">
+                        <small> <em> Powered by Foursquare© </em></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="js/lib/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
